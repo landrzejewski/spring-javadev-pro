@@ -37,15 +37,15 @@ public class LengthValidator {
         var arguments = joinPoint.getArgs();
         for (int index = 0; index < arguments.length; index++) {
             var argument = (String) arguments[index];
-            var lengthAnnotation = getLengthAnnotation(annotations[index]);
-            lengthAnnotation.ifPresent(length -> validator.validate(argument, length));
+            var lengthAnnotation = getAnnotation(annotations[index], Length.class);
+            lengthAnnotation.ifPresent(length -> validator.validate(argument, (Length) length));
         }
     }
 
-    private Optional<Length> getLengthAnnotation(Annotation[] annotations) {
+    private Optional<? extends Annotation> getAnnotation(Annotation[] annotations, Class<? extends Annotation> type) {
         return Arrays.stream(annotations)
-                .filter(Length.class::isInstance)
-                .map(Length.class::cast)
+                .filter(annotation -> annotation.getClass().isInstance(type))
+                .map(annotation -> annotation.getClass().cast(type))
                 .findFirst();
     }
 
