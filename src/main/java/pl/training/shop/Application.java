@@ -2,17 +2,18 @@ package pl.training.shop;
 
 import lombok.extern.java.Log;
 import org.javamoney.moneta.FastMoney;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import pl.training.shop.payments.*;
-import pl.training.shop.time.SystemTimeProvider;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import pl.training.shop.payments.PaymentRequest;
+import pl.training.shop.payments.PaymentService;
 
 @Log
 public class Application {
 
     private static final String DEFAULT_CURRENCY_CODE = "PLN";
+    private static final String CONFIGURATION_FILE = "shop.xml";
 
     public static void main(String[] args) {
-        try (var container = new AnnotationConfigApplicationContext(ShopConfiguration.class)) {
+        try (var container = new ClassPathXmlApplicationContext(CONFIGURATION_FILE)) {
             var paymentService = container.getBean(PaymentService.class);
             var paymentRequest = new PaymentRequest(1L, FastMoney.of(1_000, DEFAULT_CURRENCY_CODE));
             var payment = paymentService.process(paymentRequest);
