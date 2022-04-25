@@ -22,16 +22,12 @@ public class PaymentProcessor {
                 .timestamp(Instant.now())
                 .status(PaymentStatus.STARTED)
                 .build();
-        log.info(createLogEntry(payment));
+        log.info(LOG_FORMAT.formatted(payment.getValue()));
         return paymentsRepository.save(payment);
     }
 
     private FastMoney calculateTotalPaymentValue(FastMoney paymentValue) {
         return paymentValue.add(paymentFeeCalculator.calculateFee(paymentValue));
-    }
-
-    private String createLogEntry(Payment payment) {
-        return String.format(LOG_FORMAT, payment.getValue());
     }
 
 }
