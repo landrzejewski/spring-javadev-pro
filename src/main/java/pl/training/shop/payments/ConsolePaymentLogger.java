@@ -29,7 +29,7 @@ public class ConsolePaymentLogger {
     }
 
     private String createLogEntry(Payment payment) {
-        return String.format(LOG_FORMAT, payment.getValue());
+        return LOG_FORMAT.formatted(payment.getValue());
     }
 
     @PostConstruct
