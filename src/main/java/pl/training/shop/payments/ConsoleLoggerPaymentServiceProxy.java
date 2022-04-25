@@ -14,12 +14,8 @@ public class ConsoleLoggerPaymentServiceProxy implements PaymentService {
     @Override
     public Payment process(PaymentRequest paymentRequest) {
         var payment = paymentService.process(paymentRequest);
-        log.info(createLogEntry(payment));
+        log.info(LOG_FORMAT.formatted(payment.getValue()));
         return payment;
-    }
-
-    private String createLogEntry(Payment payment) {
-        return String.format(LOG_FORMAT, payment.getValue());
     }
 
 }
