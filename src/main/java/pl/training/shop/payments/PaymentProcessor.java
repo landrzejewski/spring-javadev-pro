@@ -8,8 +8,6 @@ import pl.training.shop.commons.aop.LogExecutionTime;
 import pl.training.shop.commons.aop.Retry;
 import pl.training.shop.time.TimeProvider;
 
-import java.time.Instant;
-
 @RequiredArgsConstructor
 public class PaymentProcessor implements PaymentService {
 
@@ -35,7 +33,7 @@ public class PaymentProcessor implements PaymentService {
         return Payment.builder()
                 .id(paymentIdGenerator.getNext())
                 .value(paymentValue)
-                .timestamp(Instant.now())
+                .timestamp(timeProvider.getTimestamp())
                 .status(PaymentStatus.STARTED)
                 .build();
     }
