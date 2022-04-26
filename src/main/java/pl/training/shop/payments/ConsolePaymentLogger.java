@@ -13,7 +13,7 @@ import org.springframework.core.annotation.Order;
 public class ConsolePaymentLogger {
 
     @Pointcut("execution(pl.training.shop.payments.Payment pl.training.shop.*.PaymentProcessor.proc*(..))")
-    // @Pointcut("@annotation(Loggable)")
+    // @Pointcut("@annotation(LogPayment)")
     // @Pointcut("bean(paymentService)")
     void process() {
     }
