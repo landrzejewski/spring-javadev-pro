@@ -1,7 +1,6 @@
 package pl.training.shop.payments;
 
 import org.javamoney.moneta.FastMoney;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.training.shop.time.TimeProvider;
 
@@ -27,7 +26,7 @@ public class PaymentProcessor implements PaymentService {
 
     @Override
     public Payment process(PaymentRequest paymentRequest) {
-        var paymentValue = calculateTotalPaymentValue(paymentRequest.getValue());
+        var paymentValue = calculatePaymentValue(paymentRequest.getValue());
         var payment = createPayment(paymentValue);
         return paymentsRepository.save(payment);
     }
@@ -41,7 +40,7 @@ public class PaymentProcessor implements PaymentService {
                 .build();
     }
 
-    private FastMoney calculateTotalPaymentValue(FastMoney paymentValue) {
+    private FastMoney calculatePaymentValue(FastMoney paymentValue) {
         return paymentValue.add(paymentFeeCalculator.calculateFee(paymentValue));
     }
 
