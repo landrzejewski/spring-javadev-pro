@@ -15,15 +15,19 @@ public class PaymentProcessor {
     private final PaymentRepository paymentsRepository = new PaymentRepository();
 
     public Payment process(PaymentRequest paymentRequest) {
-        var totalPaymentValue = calculateTotalPaymentValue(paymentRequest.getValue());
-        var payment = Payment.builder()
+        var paymentValue = calculateTotalPaymentValue(paymentRequest.getValue());
+        var payment = createPayment(paymentValue);
+        log.info(LOG_FORMAT.formatted(payment.getValue()));
+        return paymentsRepository.save(payment);
+    }
+
+    private Payment createPayment(FastMoney paymentValue) {
+        return Payment.builder()
                 .id(paymentIdGenerator.getNext())
-                .value(totalPaymentValue)
+                .value(paymentValue)
                 .timestamp(Instant.now())
                 .status(PaymentStatus.STARTED)
                 .build();
-        log.info(LOG_FORMAT.formatted(payment.getValue()));
-        return paymentsRepository.save(payment);
     }
 
     private FastMoney calculateTotalPaymentValue(FastMoney paymentValue) {
