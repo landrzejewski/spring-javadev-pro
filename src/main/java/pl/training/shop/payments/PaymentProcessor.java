@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.javamoney.moneta.FastMoney;
 import pl.training.shop.time.TimeProvider;
 
+import java.time.Instant;
+
 @RequiredArgsConstructor
 public class PaymentProcessor implements PaymentService {
 
@@ -16,14 +18,18 @@ public class PaymentProcessor implements PaymentService {
 
     @Override
     public Payment process(PaymentRequest paymentRequest) {
-        var totalPaymentValue = calculateTotalPaymentValue(paymentRequest.getValue());
-        var payment = Payment.builder()
-                .id(paymentIdGenerator.getNext())
-                .value(totalPaymentValue)
-                .timestamp(timeProvider.getTimestamp())
-                .status(DEFAULT_PAYMENT_STATUS)
-                .build();
+        var paymentValue = calculateTotalPaymentValue(paymentRequest.getValue());
+        var payment = createPayment(paymentValue);
         return paymentsRepository.save(payment);
+    }
+
+    private Payment createPayment(FastMoney paymentValue) {
+        return Payment.builder()
+                .id(paymentIdGenerator.getNext())
+                .value(paymentValue)
+                .timestamp(Instant.now())
+                .status(PaymentStatus.STARTED)
+                .build();
     }
 
     private FastMoney calculateTotalPaymentValue(FastMoney paymentValue) {
