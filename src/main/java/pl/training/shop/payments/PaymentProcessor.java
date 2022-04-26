@@ -26,7 +26,7 @@ public class PaymentProcessor implements PaymentService {
     @LogPayment
     @Override
     public Payment process(PaymentRequest paymentRequest) {
-        var paymentValue = calculateTotalPaymentValue(paymentRequest.getValue());
+        var paymentValue = calculatePaymentValue(paymentRequest.getValue());
         var payment = createPayment(paymentValue);
         return paymentsRepository.save(payment);
     }
@@ -40,7 +40,7 @@ public class PaymentProcessor implements PaymentService {
                 .build();
     }
 
-    private FastMoney calculateTotalPaymentValue(FastMoney paymentValue) {
+    private FastMoney calculatePaymentValue(FastMoney paymentValue) {
         return paymentValue.add(paymentFeeCalculator.calculateFee(paymentValue));
     }
 
