@@ -15,7 +15,7 @@ public class PaymentProcessor {
     private final PaymentRepository paymentsRepository = new PaymentRepository();
 
     public Payment process(PaymentRequest paymentRequest) {
-        var paymentValue = calculateTotalPaymentValue(paymentRequest.getValue());
+        var paymentValue = calculatePaymentValue(paymentRequest.getValue());
         var payment = createPayment(paymentValue);
         log.info(LOG_FORMAT.formatted(payment.getValue()));
         return paymentsRepository.save(payment);
@@ -30,7 +30,7 @@ public class PaymentProcessor {
                 .build();
     }
 
-    private FastMoney calculateTotalPaymentValue(FastMoney paymentValue) {
+    private FastMoney calculatePaymentValue(FastMoney paymentValue) {
         return paymentValue.add(paymentFeeCalculator.calculateFee(paymentValue));
     }
 
