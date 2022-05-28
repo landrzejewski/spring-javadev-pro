@@ -1,41 +1,31 @@
 package pl.training.shop.payments.adapters.persistence.jpa;
 
-import lombok.Setter;
-import org.springframework.stereotype.Repository;
-import pl.training.shop.commons.Page;
-import pl.training.shop.commons.ResultPage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class JpaPaymentRepository {
+import static javax.persistence.LockModeType.PESSIMISTIC_WRITE;
+import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
-    @PersistenceContext
-    @Setter
-    private EntityManager entityManager;
+public interface JpaPaymentRepository extends JpaRepository<PaymentEntity, String>, JpaPaymentRepositoryExtension, JpaSpecificationExecutor<PaymentEntity> {
 
-    public PaymentEntity save(PaymentEntity payment) {
-        entityManager.persist(payment);
-        return payment;
-    }
+    //@EntityGraph(value = "WITH_PROPERTIES", type = FETCH)
+    //@EntityGraph(attributePaths = { "properties" })
+    @Lock(PESSIMISTIC_WRITE)
+    Page<PaymentEntity> getByStatus(String status, Pageable pageable);
 
-    public Optional<PaymentEntity> getById(String id) {
-        return Optional.ofNullable(entityManager.find(PaymentEntity.class, id));
-    }
+    @Query("select p from Payment p where p.status = 'COMPLETED' and p.value >= :value")
+    List<PaymentEntity> getCompletedWithValue(@Param("value") BigDecimal value);
 
-    public ResultPage<PaymentEntity> getByStatus(String status, Page page) {
-        var payments = entityManager.createNamedQuery(PaymentEntity.GET_BY_STATUS, PaymentEntity.class)
-                .setParameter("status", status)
-                .setFirstResult(page.getOffset())
-                .setMaxResults(page.getSize())
-                .getResultList();
-        var count = entityManager.createNamedQuery(PaymentEntity.COUNT_BY_STATUS, Long.class)
-                .setParameter("status", status)
-                .getSingleResult();
-        var totalPages = (count / page.getSize()) + 1;
-        return new ResultPage<>(payments, page.getNumber(), totalPages);
-    }
+    @Query("select new pl.training.shop.payments.adapters.persistence.jpa.PaymentEntityView(p.id, p.status) from Payment p where p.id = :id")
+    Optional<PaymentEntityView> getViewById(String id);
+
+    @Query("select p.id as id, p.status as status from Payment p where p.id = :id")
+    Optional<PaymentEntityDescription> getDescriptionById(String id);
 
 }

@@ -3,6 +3,7 @@ package pl.training.shop.payments.adapters.persistence.jpa;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import java.time.Instant;
 @EqualsAndHashCode(of = "id")
 @Getter
 @Setter
+@ToString(of = {"id", "value", "currency" , "status"})
 public class PaymentEntity {
 
     public static final String GET_BY_STATUS = "paymentsByStatus";
