@@ -33,7 +33,7 @@ public class SpringDataJpaExamples {
         payment.setTimestamp(Instant.now());
         payment.setValue(BigDecimal.valueOf(1_000));
         payment.setCurrency("PLN");
-        jpaPaymentRepository.save(payment);
+        // jpaPaymentRepository.save(payment);
 
         var paymentExample = new PaymentEntity();
         paymentExample.setStatus("STARTED");

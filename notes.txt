@@ -1,0 +1,7 @@
+1. Bazując na przykładzie z płatnościami, zaimplementować funkcjonalność składania zamówień (osobny pakiet/domena orders)
+W ramach składania zamówienia należy:
+- przekazać listę identyfikatorów produktów oraz ich ilości (jak w koszyku)
+- odczytać ceny produktów z bazy
+- obliczyć całkowitą kwotę zamówienia
+- zapisać informacje o zamówieniu oraz jego elementach do bazy
+- złożyć żądanie płatności na całkowitą kwotę zamówienia (adapter do domeny płatności)

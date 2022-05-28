@@ -24,11 +24,13 @@ public class PaymentServiceDecorator implements PaymentService {
         return paymentRequests.stream().map(this::process).toList();
     }
 
+    @Atomic
     @Override
     public Payment getById(String id) {
         return paymentService.getById(id);
     }
 
+    @Atomic
     @Override
     public ResultPage<Payment> getByStatus(PaymentStatus status, Page page) {
         return paymentService.getByStatus(status, page);
