@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    # hibernate:
+      # ddl-auto: create-drop
+  messages:
+    basename: exceptions
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:h2:file:./data/payments.db
+    username: admin
+    password: admin
+    # url: jdbc:postgresql://localhost:5432/shop
+    # username: admin
+    # password: admin
+    # driver-class-name: org.postgresql.Driver
+logging:
+  level:
+    org.javamoney.moneta.FastMoney: OFF
