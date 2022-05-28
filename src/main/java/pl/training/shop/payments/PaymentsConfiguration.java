@@ -2,34 +2,28 @@ package pl.training.shop.payments;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.training.shop.time.TimeProvider;
+import org.springframework.context.annotation.Primary;
+import pl.training.shop.payments.domain.DefaultPaymentServiceFactory;
+import pl.training.shop.payments.domain.PaymentServiceDecorator;
+import pl.training.shop.payments.ports.PaymentRepository;
+import pl.training.shop.payments.ports.PaymentService;
+import pl.training.shop.payments.ports.PaymentServiceFactory;
+import pl.training.shop.payments.ports.TimeProvider;
 
 @Configuration
 public class PaymentsConfiguration {
 
-    @Bean
-    public PaymentIdGenerator paymentIdGenerator() {
-        return new UuidPaymentIdGenerator();
-    }
+    private static final PaymentServiceFactory PAYMENT_SERVICE_FACTORY = new DefaultPaymentServiceFactory();
 
     @Bean
-    public PaymentFeeCalculator paymentFeeCalculator() {
-        return new PercentagePaymentFeeCalculator(0.01);
+    public PaymentService paymentService(PaymentRepository paymentRepository, TimeProvider timeProvider) {
+        return PAYMENT_SERVICE_FACTORY.create(paymentRepository, timeProvider);
     }
 
+    @Primary
     @Bean
-    public PaymentRepository paymentRepository() {
-        return new JpaPaymentRepository();
-    }
-
-    @Bean
-    public PaymentService paymentService(PaymentIdGenerator paymentIdGenerator, PaymentFeeCalculator paymentFeeCalculator, PaymentRepository paymentRepository, TimeProvider timeProvider) {
-        return new PaymentProcessor(paymentIdGenerator, paymentFeeCalculator, paymentRepository, timeProvider);
-    }
-
-    @Bean(initMethod = "init", destroyMethod = "destroy")
-    public ConsolePaymentLogger paymentLogger() {
-        return new ConsolePaymentLogger();
+    public PaymentService paymentServiceDecorator(PaymentService paymentService) {
+        return new PaymentServiceDecorator(paymentService);
     }
 
 }

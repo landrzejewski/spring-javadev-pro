@@ -1,4 +1,4 @@
-package pl.training.shop.payments;
+package pl.training.shop.commons.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LogPayment {
+public @interface Atomic {
 }

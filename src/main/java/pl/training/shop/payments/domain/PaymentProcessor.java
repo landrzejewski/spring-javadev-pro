@@ -1,12 +1,12 @@
-package pl.training.shop.payments;
+package pl.training.shop.payments.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.javamoney.moneta.FastMoney;
-import pl.training.shop.commons.aop.Length;
-import pl.training.shop.commons.aop.Lock;
-import pl.training.shop.commons.aop.LogExecutionTime;
-import pl.training.shop.commons.aop.Retry;
-import pl.training.shop.time.TimeProvider;
+import pl.training.shop.commons.Page;
+import pl.training.shop.commons.ResultPage;
+import pl.training.shop.payments.ports.PaymentRepository;
+import pl.training.shop.payments.ports.PaymentService;
+import pl.training.shop.payments.ports.TimeProvider;
 
 @RequiredArgsConstructor
 public class PaymentProcessor implements PaymentService {
@@ -18,10 +18,6 @@ public class PaymentProcessor implements PaymentService {
     private final PaymentRepository paymentsRepository;
     private final TimeProvider timeProvider;
 
-    @Lock
-    @Retry(attempts = 2)
-    @LogExecutionTime
-    @LogPayment
     @Override
     public Payment process(PaymentRequest paymentRequest) {
         var paymentValue = calculatePaymentValue(paymentRequest.getValue());
@@ -43,9 +39,14 @@ public class PaymentProcessor implements PaymentService {
     }
 
     @Override
-    public Payment getById(@Length String id) {
+    public Payment getById(String id) {
         return paymentsRepository.getById(id)
                 .orElseThrow(PaymentNotFoundException::new);
+    }
+
+    @Override
+    public ResultPage<Payment> getByStatus(PaymentStatus status, Page page) {
+        return paymentsRepository.getByStatus(status, page);
     }
 
 }

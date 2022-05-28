@@ -1,6 +1,7 @@
-package pl.training.shop.payments;
+package pl.training.shop.payments.adapters.events;
 
 import lombok.Value;
+import pl.training.shop.payments.domain.Payment;
 
 @Value
 public class PaymentEvent {

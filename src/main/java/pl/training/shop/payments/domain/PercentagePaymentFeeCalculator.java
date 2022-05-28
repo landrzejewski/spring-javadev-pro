@@ -1,10 +1,10 @@
-package pl.training.shop.payments;
+package pl.training.shop.payments.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.javamoney.moneta.FastMoney;
 
 @RequiredArgsConstructor
-public class PercentagePaymentFeeCalculator implements PaymentFeeCalculator {
+class PercentagePaymentFeeCalculator implements PaymentFeeCalculator {
 
     private final double percentage;
 

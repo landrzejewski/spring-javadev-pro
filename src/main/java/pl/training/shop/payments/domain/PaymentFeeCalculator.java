@@ -1,7 +1,9 @@
-package pl.training.shop.payments;
+package pl.training.shop.payments.domain;
 
 import org.javamoney.moneta.FastMoney;
 
-public interface PaymentFeeCalculator {
+interface PaymentFeeCalculator {
+
     FastMoney calculateFee(FastMoney paymentValue);
+
 }
