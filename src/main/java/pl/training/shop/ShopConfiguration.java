@@ -21,9 +21,4 @@ public class ShopConfiguration implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:4200");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/css/**").addResourceLocations("/assets/");
-    }
-
 }

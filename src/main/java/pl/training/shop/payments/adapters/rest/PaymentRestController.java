@@ -48,10 +48,10 @@ public class PaymentRestController {
         return ResponseEntity.ok(resultPageDto);
     }
 
-    @ExceptionHandler(PaymentNotFoundException.class)
+    /*@ExceptionHandler(PaymentNotFoundException.class)
     public ResponseEntity<ExceptionDto> onPaymentNotFound(PaymentNotFoundException exception) {
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ExceptionDto("Payment not found"));
-    }
+    }*/
 
 }
