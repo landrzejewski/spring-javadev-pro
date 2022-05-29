@@ -1,9 +1,9 @@
 spring:
-  datasource:
-    username: admin
-    password: admin
-    url: jdbc:postgresql://localhost:5432/shop
-    driver-class-name: org.postgresql.Driver
   jpa:
-    hibernate:
-      ddl-auto: create-drop
+    open-in-view: false
+    generate-ddl: true
+  profiles:
+    active: development
+logging:
+  level:
+    org.javamoney.moneta: OFF
