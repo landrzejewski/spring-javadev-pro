@@ -6,10 +6,11 @@
 </head>
 <body>
 <h1 th:text="#{payTitle}"></h1>
-<form method="post">
+<form method="post" th:object="${paymentRequest}">
     <div>
         <label for="value" th:text="#{paymentValueLabel}"></label>
-        <input id="value">
+        <input id="value" th:field="*{value}">
+        <p th:if="${#fields.hasErrors('value')}" th:text="#{invalidPaymentValue}"></p>
     </div>
     <button type="submit" th:text="#{confirmButton}"></button>
 </form>
