@@ -11,7 +11,7 @@ import pl.training.shop.payments.ports.TimeProvider;
 @RequiredArgsConstructor
 public class PaymentProcessor implements PaymentService {
 
-    private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.STARTED;
+    private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.CONFIRMED;
 
     private final PaymentIdGenerator paymentIdGenerator;
     private final PaymentFeeCalculator paymentFeeCalculator;

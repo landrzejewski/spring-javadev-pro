@@ -1,0 +1,20 @@
+POST http://localhost:8000/api/payments
+Accept: application/json
+Content-Type: application/json
+
+{
+  "requestId": 1,
+  "value": "200 PLN"
+}
+
+###
+
+GET http://localhost:8000/api/payments/34500f1e-0577-45d7-9508-dd02b366afe3
+Accept: application/json
+Content-Type: application/json
+
+###
+
+GET http://localhost:8000/api/payments?pageNumber=0&pageSize=10
+Accept: application/json
+Content-Type: application/json
