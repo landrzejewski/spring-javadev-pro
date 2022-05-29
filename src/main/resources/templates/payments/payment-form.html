@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+</head>
+<body>
+<h1 th:text="#{payTitle}"></h1>
+<form method="post">
+    <div>
+        <label for="value" th:text="#{paymentValueLabel}"></label>
+        <input id="value">
+    </div>
+    <button type="submit" th:text="#{confirmButton}"></button>
+</form>
+</body>
+</html>

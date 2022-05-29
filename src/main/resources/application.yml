@@ -4,6 +4,8 @@ spring:
     generate-ddl: true
   profiles:
     active: development
+  messages:
+    basename: text
 logging:
   level:
     org.javamoney.moneta: OFF
